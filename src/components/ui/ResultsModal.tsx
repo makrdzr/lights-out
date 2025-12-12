@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import Portal from "./Portal";
 import Button from "./Button";
 
@@ -18,6 +19,14 @@ const ResultsModal = ({
 	onRestartToInitial,
 	onGoToStart,
 }: ResultsModalProps) => {
+	const navigate = useNavigate();
+
+	const handleMainMenu = () => {
+		onGoToStart();
+		onClose();
+		navigate("/");
+	};
+
 	return (
 		<Portal>
 			<div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -60,10 +69,7 @@ const ResultsModal = ({
 						<div className="w-full sm:w-auto">
 							<Button
 								variant="secondary"
-								onClick={() => {
-									onGoToStart();
-									onClose();
-								}}
+								onClick={handleMainMenu}
 							>
 								Main Menu
 							</Button>

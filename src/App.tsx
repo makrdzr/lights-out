@@ -1,54 +1,33 @@
-import usePageState from "./hooks/usePageState";
+import { Outlet } from "react-router";
 import useGameLogic from "./hooks/useGameLogic";
 import useSettings from "./hooks/useSettings";
-import StartPage from "./pages/StartPage";
-import GamePage from "./pages/GamePage";
 import SettingsModal from "./components/ui/SettingsModal";
 import ResultsModal from "./components/ui/ResultsModal";
 import { useState } from "react";
+import { AppContext, type AppContextType } from "./context/AppContext";
 
 const App = () => {
-	const { currentPage, goToGame, goToStart } = usePageState();
-
 	const { settings, update: updateSettings } = useSettings();
-
 	const [showSettings, setShowSettings] = useState(false);
 	const [showResultsModal, setShowResultsModal] = useState(false);
 	const [didWin, setDidWin] = useState(false);
 
 	const gameLogic = useGameLogic(settings.size, settings.timer);
 
-	const handleStartGame = () => {
-		gameLogic.startNewGame();
-		goToGame();
-	};
-
-	const handleGameWon = () => {
-		setDidWin(true);
-		setShowResultsModal(true);
-	};
-
-	const handleGameLost = () => {
-		setDidWin(false);
-		setShowResultsModal(true);
+	const contextValue: AppContextType = {
+		settings,
+		updateSettings,
+		openSettings: () => setShowSettings(true),
+		gameLogic,
+		showResultsModal,
+		setShowResultsModal,
+		didWin,
+		setDidWin,
 	};
 
 	return (
-		<>
-			{currentPage === "start" && (
-				<StartPage
-					onStart={handleStartGame}
-					onOpenSettings={() => setShowSettings(true)}
-				/>
-			)}
-			{currentPage === "game" && (
-				<GamePage
-					gameLogic={gameLogic}
-					timerEnabled={settings.timer > 0}
-					onGameWon={handleGameWon}
-					onGameLost={handleGameLost}
-				/>
-			)}
+		<AppContext.Provider value={contextValue}>
+			<Outlet />
 
 			{showSettings && (
 				<SettingsModal
@@ -67,11 +46,10 @@ const App = () => {
 					onRestartToInitial={() => gameLogic.restartToInitial()}
 					onGoToStart={() => {
 						setShowResultsModal(false);
-						goToStart();
 					}}
 				/>
 			)}
-		</>
+		</AppContext.Provider>
 	);
 };
 
