@@ -16,6 +16,7 @@ The game consists of a grid of lights that can be switched on or off.
 - **Core:** React, TypeScript, Vite
 - **Styles:** Tailwind CSS
 - **Forms:** React Hook Form + Zod
+- **Routing:** React Router
 
 ## 🚀 How to launch a project
 
