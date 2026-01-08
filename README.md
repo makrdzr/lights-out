@@ -38,3 +38,25 @@ The game consists of a grid of lights that can be switched on or off.
     ```bash
     npm run dev
     ```
+
+## ✨ Implemented best practises
+
+1. **Component-Based Architecture**
+    - **Description:** The project follows a clear, modular structure by separating UI into distinct component categories: pages, layouts, and reusable UI/game components. This enhances maintainability and scalability.
+    - **Evidence:** `src/pages/GamePage.tsx`, `src/layouts/ContainerLayout.tsx`, `src/components/ui/Button.tsx`, `src/components/game/GameGrid.tsx`.
+
+2. **Code Quality & Consistency with ESLint and Prettier**
+    - **Description:** The project enforces code quality and consistent formatting using ESLint for linting and Prettier for code formatting. This ensures a uniform codebase and helps prevent common errors.
+    - **Evidence:** `eslint.config.js`, `.prettierrc`, `.prettierignore`, `package.json` (for scripts).
+
+3. **Efficient State Management with Zustand**
+    - **Description:** Global state (like game settings and results) is managed by Zustand. It provides a simple and performant way to share state across components without prop-drilling.
+    - **Evidence:** `src/store/settings.ts` and `src/store/results.ts`.
+
+4. **Strong Typing with TypeScript**
+    - **Description:** The entire codebase is written in TypeScript, providing type safety that prevents common bugs, improves code completion, and makes the code self-documenting.
+    - **Evidence:** All `.ts` and `.tsx` files in the project, such as `src/types/settings.ts` and component prop definitions.
+
+5. **Declarative Routing**
+    - **Description:** The application uses React Router to declaratively define its pages and navigation flow, making the application structure easy to understand and manage.
+    - **Evidence:** The routing configuration is defined in `src/router/index.tsx`.
