@@ -1,38 +1,57 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Settings } from "../types/settings";
+import { type Settings } from "../types/settings";
 
 interface SettingsState {
   settings: Settings;
-  isSettingsOpen: boolean;
-  setSettings: (_newSettings: Settings) => void;
+  isOpen: boolean;
+  updateSettings: (_newSettings: Partial<Settings>) => void;
   openSettings: () => void;
   closeSettings: () => void;
+  toggleTheme: () => void;
 }
+
+const getInitialTheme = (): "light" | "dark" => {
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    return "dark";
+  }
+  return "light";
+};
+
+const DEFAULT_SETTINGS: Settings = {
+  size: 5,
+  timer: 60,
+  theme: getInitialTheme(),
+};
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      settings: {
-        size: 4,
-        timer: 0,
-      },
-      isSettingsOpen: false,
-      setSettings: (newSettings) =>
+      settings: DEFAULT_SETTINGS,
+      isOpen: false,
+
+      updateSettings: (newSettings) =>
+        set((state) => ({
+          settings: { ...state.settings, ...newSettings },
+        })),
+
+      openSettings: () => set({ isOpen: true }),
+
+      closeSettings: () => set({ isOpen: false }),
+
+      toggleTheme: () =>
         set((state) => ({
           settings: {
             ...state.settings,
-            ...newSettings,
+            theme: state.settings.theme === "light" ? "dark" : "light",
           },
         })),
-      openSettings: () => set({ isSettingsOpen: true }),
-      closeSettings: () => set({ isSettingsOpen: false }),
     }),
     {
       name: "lights-out-settings",
-      partialize: (state) => ({
-        settings: state.settings,
-      }),
     },
   ),
 );

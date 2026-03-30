@@ -44,20 +44,32 @@ const GamePage = () => {
   };
 
   return (
-    <ContainerLayout className="bg-gray-100">
-      <span className="text-sm text-gray-500 mb-2">
+    <ContainerLayout className="bg-gray-100 dark:bg-slate-900 transition-colors duration-300 p-4 justify-center">
+      <span className="text-sm text-gray-500 dark:text-slate-400 mb-2">
         Player: {userId?.slice(0, 8)}...
       </span>
 
-      <h1 className="text-3xl font-bold mb-4">Game</h1>
+      <h1 className="text-3xl font-bold mb-6 dark:text-white">Game</h1>
 
-      <div className="flex gap-6 mb-3 items-center justify-center">
-        <StepCounter steps={gameLogic.steps} />
-        {settings.timer > 0 && <Timer timeLeft={gameLogic.timeLeft} />}
+      <div className="flex gap-8 mb-8 items-center justify-center bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors">
+        <div className="flex flex-col items-center">
+          <StepCounter steps={gameLogic.steps} />
+        </div>
+        {settings.timer > 0 && (
+          <div className="flex flex-col items-center">
+            <Timer timeLeft={gameLogic.timeLeft} />
+          </div>
+        )}
       </div>
 
-      <GameGrid grid={gameLogic.grid} onCellClick={gameLogic.handleCellClick} />
-      <div className="mt-6 flex gap-4">
+      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-xl mb-8 border border-gray-100 dark:border-slate-700 transition-colors">
+        <GameGrid
+          grid={gameLogic.grid}
+          onCellClick={gameLogic.handleCellClick}
+        />
+      </div>
+
+      <div className="flex gap-4">
         <Button onClick={gameLogic.startNewGame}>New Game</Button>
         <Button onClick={handleGiveUp} variant="secondary">
           Give Up
