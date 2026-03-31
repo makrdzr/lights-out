@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useGameStore } from "../store/game";
 
-const useGameLogic = (size = 4, timer = 0) => {
+const useGameLogic = (size = 4, timer = 60) => {
   const COLS = size;
   const {
     grid,
@@ -100,14 +100,13 @@ const useGameLogic = (size = 4, timer = 0) => {
   }, [timer, setGameState]);
 
   useEffect(() => {
-    if (grid.length === 0 || activeSize !== size) {
+    if (grid.length > 0 && activeSize !== size) {
       startNewGame();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [size, startNewGame]);
+  }, [size, activeSize, grid.length, startNewGame]);
 
   useEffect(() => {
-    if (timer === 0 || isWon || isLost) return;
+    if (timer === 0 || isWon || isLost || grid.length === 0) return;
 
     if (timeLeft <= 0) {
       setGameState({ isLost: true });
@@ -119,7 +118,7 @@ const useGameLogic = (size = 4, timer = 0) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timer, timeLeft, isWon, isLost, setGameState]);
+  }, [timer, timeLeft, isWon, isLost, grid.length, setGameState]);
 
   const handleCellClick = useCallback(
     (index: number) => {

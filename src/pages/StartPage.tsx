@@ -88,9 +88,18 @@ const StartPage = () => {
                         </span>
                       </div>
 
-                      <div className="flex items-end gap-4 text-sm">
+                      <div className="grid grid-cols-[auto_auto_1fr] items-end gap-4 text-sm">
                         <span className="text-gray-600 dark:text-slate-300">
-                          Steps: <span className="font-bold">{game.steps}</span>
+                          Size:{" "}
+                          <span className="font-bold w-12 inline-block">
+                            {game.size}x{game.size}
+                          </span>
+                        </span>
+                        <span className="text-gray-600 dark:text-slate-300">
+                          Steps:{" "}
+                          <span className="font-bold w-8 inline-block">
+                            {game.steps}
+                          </span>
                         </span>
                         <span className="text-gray-400 dark:text-slate-500 text-xs">
                           {new Date(game.date).toLocaleDateString()}

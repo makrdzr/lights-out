@@ -22,7 +22,7 @@ const getInitialTheme = (): "light" | "dark" => {
 };
 
 const DEFAULT_SETTINGS: Settings = {
-  size: 5,
+  size: 4,
   timer: 60,
   theme: getInitialTheme(),
 };
