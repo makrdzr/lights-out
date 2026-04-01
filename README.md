@@ -64,3 +64,11 @@ The game consists of a grid of lights that can be switched on or off.
 5. **Declarative Routing**
    - **Description:** The application uses React Router to declaratively define its pages and navigation flow, making the application structure easy to understand and manage.
    - **Evidence:** The routing configuration is defined in `src/router/index.tsx`.
+
+6. **PWA & Mobile-First Experience**
+   - **Description:** The application is designed to feel like a native mobile app and is a fully functional Progressive Web App (PWA) with offline capabilities.
+   - **Features:**
+     - **Offline Support:** Using Service Workers (via `vite-plugin-pwa`), the game can be played without an internet connection once loaded.
+     - **"Add to Home Screen":** Complete set of icons and a web manifest allow users to install the game on their devices.
+     - **Responsive Layout:** The grid and UI components are fluidly scaled to fit any screen size (from 320px up), using CSS Grid and `aspect-square` for consistent cell rendering.
+   - **Evidence:** `vite.config.ts`, `src/main.tsx`, `public/favicon/`, and `index.html`.
