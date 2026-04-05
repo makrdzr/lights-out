@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router";
 import useGameLogic from "./hooks/useGameLogic";
 import SettingsModal from "./components/ui/SettingsModal";
@@ -17,8 +17,11 @@ const App = () => {
   const closeSettings = useSettingsStore((state) => state.closeSettings);
   const showResultsModal = useResultsStore((state) => state.isOpen);
   const hideResults = useResultsStore((state) => state.hideResults);
+  const showResults = useResultsStore((state) => state.showResults);
   const gameLogic = useGameLogic(settings.size, settings.timer);
   const isGamePage = pathname.startsWith("/game/");
+
+  const lastRecordedStateRef = useRef<"won" | "lost" | "playing">("playing");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,20 +41,22 @@ const App = () => {
     }
   }, [isGamePage, hideResults]);
 
-  const contextValue: AppContextType = {
-    gameLogic,
-  };
-
-  const showResults = useResultsStore((state) => state.showResults);
+  useEffect(() => {
+    if (!gameLogic.isWon && !gameLogic.isLost) {
+      lastRecordedStateRef.current = "playing";
+    }
+  }, [gameLogic.isWon, gameLogic.isLost]);
 
   useEffect(() => {
-    if (gameLogic.isWon) {
+    if (gameLogic.isWon && lastRecordedStateRef.current !== "won") {
+      lastRecordedStateRef.current = "won";
       showResults({ isWin: true, steps: gameLogic.steps, size: settings.size });
     }
   }, [gameLogic.isWon, gameLogic.steps, showResults, settings.size]);
 
   useEffect(() => {
-    if (gameLogic.isLost) {
+    if (gameLogic.isLost && lastRecordedStateRef.current !== "lost") {
+      lastRecordedStateRef.current = "lost";
       showResults({
         isWin: false,
         steps: gameLogic.steps,
@@ -59,6 +64,10 @@ const App = () => {
       });
     }
   }, [gameLogic.isLost, gameLogic.steps, showResults, settings.size]);
+
+  const contextValue: AppContextType = {
+    gameLogic,
+  };
 
   return (
     <AppContext.Provider value={contextValue}>

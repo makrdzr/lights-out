@@ -83,28 +83,45 @@ const useGameLogic = (size = 4, timer = 60) => {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    localStorage.removeItem("lights-out-session");
   }, []);
 
+  const clearSession = useCallback(() => {
+    stopTimer();
+    localStorage.removeItem("lights-out-session");
+  }, [stopTimer]);
+
+  const timerRef = useRef(timer);
+  useEffect(() => {
+    timerRef.current = timer;
+  }, [timer]);
+
   const createTimerInterval = useCallback(() => {
-    if (timer === 0) return;
+    if (timerRef.current === 0) return;
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
     intervalRef.current = setInterval(() => {
       const state = useGameStore.getState();
       if (state.isWon || state.isLost) {
-        stopTimer();
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
         return;
       }
       if (state.timeLeft <= 0) {
         setGameState({ isLost: true });
-        stopTimer();
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
         return;
       }
       setGameState({ timeLeft: state.timeLeft - 1 });
     }, 1000);
-  }, [timer, setGameState, stopTimer]);
+  }, [setGameState]);
 
   const startNewGame = useCallback(() => {
-    stopTimer();
+    clearSession();
     useResultsStore.getState().hideResults();
     const g = createRandomGrid();
     setGameState({
@@ -113,18 +130,11 @@ const useGameLogic = (size = 4, timer = 60) => {
       steps: 0,
       isWon: false,
       isLost: false,
-      timeLeft: timer,
+      timeLeft: timerRef.current,
       activeSize: size,
     });
     createTimerInterval();
-  }, [
-    createRandomGrid,
-    timer,
-    size,
-    setGameState,
-    stopTimer,
-    createTimerInterval,
-  ]);
+  }, [createRandomGrid, size, setGameState, clearSession, createTimerInterval]);
 
   const restartToInitial = useCallback(() => {
     if (!initialGridRef.current) return;
@@ -134,10 +144,10 @@ const useGameLogic = (size = 4, timer = 60) => {
       steps: 0,
       isWon: false,
       isLost: false,
-      timeLeft: timer,
+      timeLeft: timerRef.current,
     });
     createTimerInterval();
-  }, [timer, setGameState, stopTimer, createTimerInterval]);
+  }, [setGameState, stopTimer, createTimerInterval]);
 
   useEffect(() => {
     if (grid.length > 0 && activeSize !== size) {
@@ -145,18 +155,24 @@ const useGameLogic = (size = 4, timer = 60) => {
     }
   }, [size, activeSize, grid.length, startNewGame]);
 
+  const mountedRef = useRef(false);
   useEffect(() => {
+    if (mountedRef.current) return;
+    mountedRef.current = true;
+
     if (grid.length > 0 && !isWon && !isLost) {
       createTimerInterval();
     }
-    return () => stopTimer();
+    return () => {
+      stopTimer();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const giveUp = useCallback(() => {
-    stopTimer();
+    clearSession();
     setGameState({ isLost: true });
-  }, [stopTimer, setGameState]);
+  }, [clearSession, setGameState]);
 
   const handleCellClick = useCallback(
     (index: number) => {
@@ -178,10 +194,10 @@ const useGameLogic = (size = 4, timer = 60) => {
       });
 
       if (allOff) {
-        stopTimer();
+        clearSession();
       }
     },
-    [getNeighbors, isWon, isLost, grid, steps, setGameState, stopTimer],
+    [getNeighbors, isWon, isLost, grid, steps, setGameState, clearSession],
   );
 
   return {
