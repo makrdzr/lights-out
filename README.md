@@ -18,6 +18,7 @@ The game consists of a grid of lights that can be switched on or off.
 - **Forms:** React Hook Form + Zod
 - **Routing:** React Router
 - **State Management:** Zustand
+- **Testing:** Jest, React Testing Library
 
 ## 🚀 How to launch a project
 
@@ -72,3 +73,7 @@ The game consists of a grid of lights that can be switched on or off.
      - **"Add to Home Screen":** Complete set of icons and a web manifest allow users to install the game on their devices.
      - **Responsive Layout:** The grid and UI components are fluidly scaled to fit any screen size (from 320px up), using CSS Grid and `aspect-square` for consistent cell rendering.
    - **Evidence:** `vite.config.ts`, `src/main.tsx`, `public/favicon/`, and `index.html`.
+
+7. **Testing**
+   - **Description:** The project includes unit and component tests written with Jest and React Testing Library, covering core game logic, Zustand stores, and UI components.
+   - **Evidence:** `src/hooks/__tests__/`, `src/store/__tests__/`, `src/components/**/__tests__/`.

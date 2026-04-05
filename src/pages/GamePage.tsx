@@ -21,7 +21,10 @@ const GamePage = () => {
     }
   }, [gameLogic.grid.length, navigate]);
 
-  useBlocker(({ nextLocation }) => nextLocation.pathname !== "/");
+  useBlocker(
+    ({ nextLocation }) =>
+      nextLocation.pathname !== "/" && !gameLogic.isWon && !gameLogic.isLost,
+  );
 
   return (
     <ContainerLayout className="bg-gray-100 dark:bg-slate-900 transition-colors duration-300 p-4 justify-center">
