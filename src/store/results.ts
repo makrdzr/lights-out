@@ -21,6 +21,7 @@ interface ResultsState {
     steps: number;
     size: number;
   }) => void;
+  reopenResults: () => void;
   hideResults: () => void;
   clearHistory: () => void;
 }
@@ -57,6 +58,7 @@ export const useResultsStore = create<ResultsState>()(
             bestScores: nextBestScores,
           };
         }),
+      reopenResults: () => set({ isOpen: true }),
       hideResults: () => set({ isOpen: false }),
       clearHistory: () => set({ history: [], bestScores: {} }),
     }),

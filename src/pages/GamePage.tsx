@@ -7,11 +7,13 @@ import StepCounter from "../components/game/StepCounter";
 import Timer from "../components/game/Timer";
 import { useAppContext } from "../context/AppContext";
 import { useSettingsStore } from "../store/settings";
+import { useResultsStore } from "../store/results";
 
 const GamePage = () => {
   const { userId } = useParams<{ userId: string }>();
   const { gameLogic } = useAppContext();
   const settings = useSettingsStore((state) => state.settings);
+  const reopenResults = useResultsStore((state) => state.reopenResults);
 
   const navigate = useNavigate();
 
@@ -25,6 +27,13 @@ const GamePage = () => {
     ({ nextLocation }) =>
       nextLocation.pathname !== "/" && !gameLogic.isWon && !gameLogic.isLost,
   );
+
+  useEffect(() => {
+    if (gameLogic.isWon || gameLogic.isLost) {
+      reopenResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <ContainerLayout className="bg-gray-100 dark:bg-slate-900 transition-colors duration-300 p-4 justify-center">
