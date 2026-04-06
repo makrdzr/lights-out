@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Portal from "./Portal";
 import Button from "./Button";
 import { useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ type FormData = z.infer<typeof schema>;
 const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const settings = useSettingsStore((state) => state.settings);
   const updateSettings = useSettingsStore((state) => state.updateSettings);
+  const backdropRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
@@ -54,8 +55,11 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
   return (
     <Portal>
       <div
+        ref={backdropRef}
         className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
-        onClick={onClose}
+        onMouseDown={(e) => {
+          if (e.target === backdropRef.current) onClose();
+        }}
       >
         <div
           className="bg-white dark:bg-slate-800 dark:text-slate-100 p-6 rounded-xl shadow-2xl w-full max-w-sm transform transition-all cursor-default"
