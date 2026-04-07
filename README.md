@@ -179,3 +179,11 @@ App will be available at [http://localhost:80/lights-out/](http://localhost:80/l
      - **Deploy:** Automatically deploys to GitHub Pages on every push to `main`.
      - **Reusable action:** Node.js setup and dependency installation are extracted into `.github/actions/setup-node` to avoid duplication.
    - **Evidence:** `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`, `.github/actions/setup-node/action.yml`.
+
+10. **Separation of Concerns**
+    - **Description:** Core game mechanics — including solvability-guaranteed grid generation, neighbor coordinate calculations, and move validation — are decoupled from UI components. This is achieved through the custom `useGameLogic` hook, which manages the application's complex state transitions.
+    - **Features:**
+      - **Thin Components:** UI components like `GameGrid` and `Cell` remain declarative and focused solely on presentation.
+      - **Testability:** Business logic is isolated and independently testable via unit tests.
+      - **Maintainability:** Changes to game rules can be implemented in a single place without affecting UI rendering.
+    - **Evidence:** `src/hooks/useGameLogic.ts`, `src/components/game/GameGrid.tsx`, `src/hooks/__tests__/useGameLogic.test.ts`.
