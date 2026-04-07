@@ -1,7 +1,24 @@
 # 💡 Lights Out Game
 
+[![CI](https://github.com/vt231dmyu/lights-out/actions/workflows/ci.yml/badge.svg)](https://github.com/vt231dmyu/lights-out/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 Logic puzzle game "Lights Out".
 Implemented on React + TypeScript + Vite.
+
+---
+
+### 🔗 [🕹 LIVE DEMO](https://vt231dmyu.github.io/lights-out/)
+
+---
+
+## 🎬 Gameplay Demo
+
+<div align="center">
+  <img width="100%" src="assets/demo.gif" alt="Game demonstration" />
+</div>
+
+---
 
 ## 🎮 Game Rules
 
@@ -10,6 +27,29 @@ The game consists of a grid of lights that can be switched on or off.
 - **Interaction:** Clicking on a cell toggles its state and the state of its adjacent neighbors (top, bottom, left, right).
 - **Goal:** Turn off all the lights on the grid.
 - **Challenge:** Try to achieve this in the minimum number of steps!
+
+---
+
+## 🗝 Key Features
+
+- 🛠 **Customizable Grid:** Choose grid sizes from 4x4 up to 8x8.
+- 🌓 **Theme Support:** Dark and Light mode support with system sync.
+- 💾 **Persistence:** Game state, settings, and personal bests are saved using Zustand `persist`.
+- 📱 **PWA Support:** Fully installable as a Progressive Web App for offline play.
+- 🚀 **Robust Routing:** Custom 404 Error Page and smooth navigation transitions.
+- ⚡ **Modern Stack:** Built with React 19, Tailwind CSS v4, and Vite.
+
+---
+
+## 📸 UI/UX & Routing
+
+To ensure a professional feel, the application features a custom 404 page where users can seamlessly navigate back to the game by turning off the flashlight (the '0' in '404').
+
+<div align="center">
+  <img width="100%" src="assets/404-demo.gif" alt="404 Page Not Found demonstration" />
+</div>
+
+---
 
 ## 🛠 Technology stack
 
@@ -21,6 +61,8 @@ The game consists of a grid of lights that can be switched on or off.
 - **Testing:** Jest, React Testing Library
 - **Containerization:** Docker, Docker Compose
 - **CI/CD:** GitHub Actions
+
+---
 
 ## 🚀 How to launch a project
 
@@ -60,13 +102,13 @@ The game consists of a grid of lights that can be switched on or off.
    docker compose up -d dev
    ```
 
-App will be available at `http://localhost:5173`
+App will be available at [http://localhost:5173/lights-out/](http://localhost:5173/lights-out/)
 
 3. **Run npm commands inside the container**
 
    ```bash
-   docker compose exec dev npm run test
    docker compose exec dev npm run tidy
+   docker compose exec dev npm run test
    ```
 
 4. **Preview production build locally**
@@ -81,9 +123,11 @@ App will be available at `http://localhost:5173`
    docker compose --profile prod up -d prod --build
    ```
 
-App will be available at `http://localhost:80`
+App will be available at [http://localhost:80/lights-out/](http://localhost:80/lights-out/)
 
-## ✨ Implemented best practises
+---
+
+## ✨ Implemented best practices
 
 1. **Component-Based Architecture**
    - **Description:** The project follows a clear, modular structure by separating UI into distinct component categories: pages, layouts, and reusable UI/game components. This enhances maintainability and scalability.
