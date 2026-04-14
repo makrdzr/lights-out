@@ -1,6 +1,7 @@
 # 💡 Lights Out Game
 
-[![CI](https://github.com/makrdzr/lights-out/actions/workflows/ci.yml/badge.svg)](https://github.com/makrdzr/lights-out/actions/workflows/ci.yml)
+[![CI](https://github.com/dzhhem/lights-out/actions/workflows/ci.yml/badge.svg)](https://github.com/dzhhem/lights-out/actions/workflows/ci.yml)
+[![Docker Image](https://img.shields.io/badge/GHCR-latest-blue?logo=docker)](https://github.com/dzhhem/lights-out/pkgs/container/lights-out)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 Logic puzzle game "Lights Out".
@@ -8,7 +9,7 @@ Implemented on React + TypeScript + Vite.
 
 ---
 
-### 🔗 [🕹 LIVE DEMO](https://makrdzr.github.io/lights-out/)
+### 🔗 [🕹 LIVE DEMO](https://dzhhem.github.io/lights-out/)
 
 ---
 
@@ -178,6 +179,7 @@ App will be available at [http://localhost:80/lights-out/](http://localhost:80/l
      - **CI:** Runs on every push and pull request — checks formatting, linting, tests, and build. Deploy job is blocked until all checks pass.
      - **Deploy:** Automatically deploys to GitHub Pages on every push to `main`.
      - **Reusable action:** Node.js setup and dependency installation are extracted into `.github/actions/setup-node` to avoid duplication.
+     - **Docker Image:** Automatically builds and pushes production Docker image to GitHub Container Registry (GHCR) on every deploy.
    - **Evidence:** `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`, `.github/actions/setup-node/action.yml`.
 
 10. **Separation of Concerns**
